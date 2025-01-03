@@ -1,8 +1,4 @@
-# Zwischenloesung
-This is the respository of the ARKU Hackathon's team "Zwischenlösung" 
-
-
-# Hackathon 2024 - Submission of Group *// Group Name //*
+# Hackathon 2024 - Submission of Group *Zwischenlösung*
 
 Team members:
     - Johannes März
