@@ -16,7 +16,6 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 ## How to Run 
 
 // How to run your code, e.g., `python solution/main.py path/to/input/tasks.csv output/solutions.csv` // 
- 
 
 ## Besondere Funktionen unserer Lösung 
 
@@ -29,7 +28,7 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 
  - Visualisierung: Im output-Ordner wird zu jedem Bauteil-Greifer-Paar eine Visualisierung der gefundenen Position abgespeichert. Darin sind neben dem Greifer auch der Greifermittelpunkt, der Bauteilschwerpunkt sowie die Positionierungsparameter (x, y, Winkel) zu erkennen. 
 
-![Alternativtext](result___part_2___gripper_1 (1))
+![s](result___part_2___gripper_1 (1))
 
 - Warnings und Errors: Die gefundene Greiferpositionierung wird in unserem Algorithmus auf kritische Eigenschaften, wie bspw. die Nähe zu Randbereichen, geprüft. Warnungen werden in rot oder gelb im Terminal ausgegeben und in der Visualisierungs-png abgespeichert. Zudem ist in der Ergebnis-csv-Datei eine weitere Spalte mit dem key “annotation” vorhanden, in der diese Warnungen zu finden sind. Folgende Warnungen sind möglich:  
 
