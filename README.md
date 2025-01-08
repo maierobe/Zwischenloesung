@@ -35,8 +35,9 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
     - There are some gripper points outside of the part. Check Position of gripper in the visualization image. [ROT] 
     - There are some gripper points near the edge (<3mm). [GELB] 
     - Distance between gripper center and part center of mass is high. Check if gripper force can safely compensate the tilting moment. [GELB]
-    
-    <img src="images/result___binary_mask_4___gripper_1.png" alt="" width="300px" />
+
+
+<img src="images/result___binary_mask_4___gripper_1.png" alt="" width="300px" />
 
 - Gripper Dateiformat: Sowohl PNG- als auch SVG-Dateien können verarbeitet werden. 
 
