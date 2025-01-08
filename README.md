@@ -28,7 +28,7 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 
  - Visualisierung: Im output-Ordner wird zu jedem Bauteil-Greifer-Paar eine Visualisierung der gefundenen Position abgespeichert. Darin sind neben dem Greifer auch der Greifermittelpunkt, der Bauteilschwerpunkt sowie die Positionierungsparameter (x, y, Winkel) zu erkennen. 
 
-![s](https://github.com/maierobe/Zwischenloesung/blob/main/images/result___part_2___gripper_1%20(1).png))
+![s](https://github.com/maierobe/Zwischenloesung/blob/main/images/result___part_2___gripper_1%20(1).png)
 
 - Warnings und Errors: Die gefundene Greiferpositionierung wird in unserem Algorithmus auf kritische Eigenschaften, wie bspw. die Nähe zu Randbereichen, geprüft. Warnungen werden in rot oder gelb im Terminal ausgegeben und in der Visualisierungs-png abgespeichert. Zudem ist in der Ergebnis-csv-Datei eine weitere Spalte mit dem key “annotation” vorhanden, in der diese Warnungen zu finden sind. Folgende Warnungen sind möglich:  
 
@@ -49,7 +49,7 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 
 	- Abstand des Greiferpunkt-Rands vom nächstgelegenen verbotenen Bereich: Bis zu einer Schwelle von 5mm steigt dieser Wert proportional an und anschließend mit einer gedämpften Steigung (Faktor 0.15). So wird eine Entfernung vom Bauteil-Randbereich belohnt, und gleichzeitig die Positionierung in der Mitte großer freier Bauteilflächen nicht übermäßig bevorzugt. Dieser Einflussfaktor kann in einer Distanzkarte visualisiert werden (siehe Abbildung unten links)
 	
- 	![Alternativtext](result___part_2___gripper_1)![Alternativtext](result___part_4___gripper_5)
+ 	![Alternativtext](https://github.com/maierobe/Zwischenloesung/blob/main/images/result___binary_mask_2___gripper_1.png)![Alternativtext](https://github.com/maierobe/Zwischenloesung/blob/main/images/result___binary_mask_4___gripper_5.png)
 
 	- Bestraft werden dagegen:
 
