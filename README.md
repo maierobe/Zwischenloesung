@@ -109,3 +109,9 @@ Unsere Ausführungszeiten:
 Laptop – Intel i5 11th Gen (2020) - keine GPU: ~2 Sekunden pro Greifer-Bauteil-Paar
 
 Falls die Ausführungszeit bei Ihrem Rechner >3 Sekunden beträgt, verringern Sie die Variable search_param_num_iter in der Funktion main_get_position_and_visualization() in  solution/helper_positioning.py
+
+
+
+<hr style="border: 1px solid black;"> 
+
+![divider](https://via.placeholder.com/800x2/000000/000000?text=+) 
