@@ -13,12 +13,12 @@ Im ersten Schritt der Lösung wird ein Machine-Vision-Ansatz angewendet, der ein
 
 Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbotenen Bereichen (wie Bohrungen und Ränder) und des Abstands der Greifermitte zum Bauteilschwerpunkt ermittelt. In diesem Scoring wird die Unterschreitung einer kritischen Randnähe von 3 mm besonders stark bestraft. Mittels dynamisch an die Bauteilabmaße angepasste Suchnetze wird in einem iterativen Prozess mit einer Coarse-Search, einer anschließenden Fine-Search und einer Decimal-Search die optimale Position auf Basis der ermittelten Scores gefunden. 
 
+![Python Version](https://img.shields.io/badge/Python-3.12-blue) 
+
 ## How to Run 
 
 1. CV-Modell "RMS_cv_model.pth" von der Drive "ProKI-Hackathon2024-Submissions" aus der Zip-Datei "Team-Zwischenloesung-CV-Modell" laden und in den Solution-Ordner legen.
 2. Ausführen von `python solution/main.py path/to/input/tasks.csv output/solutions.csv` in der CMD.
-
-![Python Version](https://img.shields.io/badge/Python-3.12-blue) 
 
 ## ✨ Besondere Funktionen unserer Lösung 
 
