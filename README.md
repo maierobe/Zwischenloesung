@@ -18,7 +18,7 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 ## How to Run 
 
 1. CV-Modell "RMS_cv_model.pth" von der Drive "ProKI-Hackathon2024-Submissions" aus der Zip-Datei "Team-Zwischenloesung-CV-Modell" laden und in den Solution-Ordner legen.
-2. Ausführen von `python solution/main.py path/to/input/tasks.csv output/solutions.csv` in der CMD.
+2. Ausführen von `python solution/main.py tasks/task.csv output/solutions.csv` in der CMD.
 
 
 
