@@ -20,7 +20,9 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 
 ## Besondere Funktionen unserer Lösung 
 
-- Greifermittelpunkt(**Wichtig**): Die Optimierung der Positionierung erfolgt zum **Bauteilschwerpunkt** und nicht dem Bildmittelpunkt. Diese Optimierung ist bewusst nicht auf die Aufgabenstellung ausgerichtet, sondern auf das reale Problem. Da der Schwerpunkt in unserer Lösung die tatsächliche physikalische Balance der vorhandenen Bauteilgeometrie berücksichtigt, werden präziseres und sicheres Greifen mit niedrigen Kippmomenten auf den Greifarm ermöglicht.  
+# Greifermittelpunkt(**Wichtig**)
+
+Die Optimierung der Positionierung erfolgt zum **Bauteilschwerpunkt** und nicht dem Bildmittelpunkt. Diese Optimierung ist bewusst nicht auf die Aufgabenstellung ausgerichtet, sondern auf das reale Problem. Da der Schwerpunkt in unserer Lösung die tatsächliche physikalische Balance der vorhandenen Bauteilgeometrie berücksichtigt, werden präziseres und sicheres Greifen mit niedrigen Kippmomenten auf den Greifarm ermöglicht.  
 
 - Zusätzliche Parameter zur Positionsoptimierung: Diese können verwendet werden, je nach Anforderung (Bspw Mindestabstand zum Rand), um die Positionierung des Greifers zu verbessern. Das ist möglich in der Funktion **main_get_position_and_visualization() in helper_positioning.py** 
 
