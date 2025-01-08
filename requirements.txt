@@ -1,2 +1,10 @@
-pandas
+Pillow
+matplotlib
 numpy
+rich
+pandas
+torch
+torchvision
+segmentation-models-pytorch
+efficientnet-pytorch
+
