@@ -7,4 +7,5 @@ torch
 torchvision
 segmentation-models-pytorch
 efficientnet-pytorch
-
+cvzone
+svgpathtools
