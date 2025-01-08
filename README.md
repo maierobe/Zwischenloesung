@@ -46,11 +46,11 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 
 -Belohnt wird folgender Einflussparameter: 
 
-    - Abstand des Greiferpunkt-Rands vom nächstgelegenen verbotenen Bereich: Bis zu einer Schwelle von 5mm steigt dieser Wert proportional an und anschließend mit einer gedämpften Steigung (Faktor 0.15). So wird eine Entfernung vom Bauteil-Randbereich belohnt, und gleichzeitig die Positionierung in der Mitte großer freier Bauteilflächen nicht übermäßig bevorzugt. Dieser Einflussfaktor kann in einer Distanzkarte visualisiert werden (siehe Abbildung unten links) 
-	- Bestraft werden dagegen:
+- Abstand des Greiferpunkt-Rands vom nächstgelegenen verbotenen Bereich: Bis zu einer Schwelle von 5mm steigt dieser Wert proportional an und anschließend mit einer gedämpften Steigung (Faktor 0.15). So wird eine Entfernung vom Bauteil-Randbereich belohnt, und gleichzeitig die Positionierung in der Mitte großer freier Bauteilflächen nicht übermäßig bevorzugt. Dieser Einflussfaktor kann in einer Distanzkarte visualisiert werden (siehe Abbildung unten links) 
+- Bestraft werden dagegen:
 
-		- Euklidische Distanz zwischen Greifermittelpunkt und Bildschwerpunkt: So werden Kippmomente auf den Greifer möglichst reduziert. Der Bildschwerpunkt wird aus Bauteilgeometrie ermittelt, die von unserem Computer-Vision-Modell in Form einer Maske erkannt wird. Bohrungen und Ausstanzungen werden hier also berücksichtigt. 
-		- Nähe zum verbotenen Bereich < 3mm: In diesem Randbereich wird eine zusätzliche Bestrafung vorgenommen, wodurch ein Sicherheitsabstand bevorzugt wird. So können Ungenauigkeiten (bspw. In der Bewegung und Positionierung des Greifarms) berücksichtig werden. Der Parameter (min_distance_to_forbidden_area) kann geändert werden. 
+- Euklidische Distanz zwischen Greifermittelpunkt und Bildschwerpunkt: So werden Kippmomente auf den Greifer möglichst reduziert. Der Bildschwerpunkt wird aus Bauteilgeometrie ermittelt, die von unserem Computer-Vision-Modell in Form einer Maske erkannt wird. Bohrungen und Ausstanzungen werden hier also berücksichtigt. 
+- Nähe zum verbotenen Bereich < 3mm: In diesem Randbereich wird eine zusätzliche Bestrafung vorgenommen, wodurch ein Sicherheitsabstand bevorzugt wird. So können Ungenauigkeiten (bspw. In der Bewegung und Positionierung des Greifarms) berücksichtig werden. Der Parameter (min_distance_to_forbidden_area) kann geändert werden. 
 
 - Out of boundary: Ragen Greiferpunkte in den als verboten identifizierten Bereich, so wird eine enorm hohe Bestrafung durchgeführt. So werden diese Positionen nur ausgewählt, wenn keine andere Möglichkeit besteht.  
 - Um die optimale Greiferposition möglichst effizient zu finden, wird die Suche in drei Stufen unterteilt: 
