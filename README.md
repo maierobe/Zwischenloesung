@@ -26,7 +26,7 @@ Die Optimierung der Positionierung erfolgt zum **Bauteilschwerpunkt** und nicht 
 
 ### Zusätzliche Parameter zur Positionsoptimierung
 
-Diese können verwendet werden, je nach Anforderung (Bspw Mindestabstand zum Rand), um die Positionierung des Greifers zu verbessern. Das ist möglich in der Funktion **main_get_position_and_visualization() in helper_positioning.py** 
++ Diese können verwendet werden, je nach Anforderung (Bspw Mindestabstand zum Rand), um die Positionierung des Greifers zu verbessern. Das ist möglich in der Funktion **main_get_position_and_visualization() in helper_positioning.py** 
 
 - Randbereich (**min_distance_to_forbidden_area**): Definiert den Randbereich den der Greifer bestenfalls einhalten soll. Eine Positionierung in diesem Bereich wird in der Positionssuche nicht ausgeschlossen, aber durch stärkere Bestrafung vermieden, wenn möglich. Der Abstand kann abhängig der Bauteileigenschaften oder Anforderungen gewählt werden. 
 - Rechenaufwand der Positionierung (**num_iter**): Der Rechenaufwand kann durch die Variable **search_param_num_iter** erheblich beeinflusst werden. Die vorliegende Variable determiniert die Auflösung des Netzes für die Positionierung. Eine Erhöhung der Variablen führt zu einer Verfeinerung des Netzes und somit zu einer erhöhten Anzahl an Positionslösungen. Allerdings ist auch ein Anstieg des Rechenaufwands zu verzeichnen. 
