@@ -28,15 +28,15 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 
  - Visualisierung: Im output-Ordner wird zu jedem Bauteil-Greifer-Paar eine Visualisierung der gefundenen Position abgespeichert. Darin sind neben dem Greifer auch der Greifermittelpunkt, der Bauteilschwerpunkt sowie die Positionierungsparameter (x, y, Winkel) zu erkennen. 
 
-<img src="images/result___part_2___gripper_1%20(1).png" alt="" width="400px" />
+<img src="images/result___part_2___gripper_1%20(1).png" alt="" width="300px" />
 
 - Warnings und Errors: Die gefundene Greiferpositionierung wird in unserem Algorithmus auf kritische Eigenschaften, wie bspw. die Nähe zu Randbereichen, geprüft. Warnungen werden in rot oder gelb im Terminal ausgegeben und in der Visualisierungs-png abgespeichert. Zudem ist in der Ergebnis-csv-Datei eine weitere Spalte mit dem key “annotation” vorhanden, in der diese Warnungen zu finden sind. Folgende Warnungen sind möglich:  
 
     - There are some gripper points outside of the part. Check Position of gripper in the visualization image. [ROT] 
     - There are some gripper points near the edge (<3mm). [GELB] 
     - Distance between gripper center and part center of mass is high. Check if gripper force can safely compensate the tilting moment. [GELB]
-
-<img src="images/result___binary_part_4___gripper_1.png" alt="" width="400px" />
+    
+    <img src="images/result___binary_mask_4___gripper_1.png" alt="" width="300px" />
 
 - Gripper Dateiformat: Sowohl PNG- als auch SVG-Dateien können verarbeitet werden. 
 
