@@ -35,8 +35,8 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
     - There are some gripper points outside of the part. Check Position of gripper in the visualization image. [ROT] 
     - There are some gripper points near the edge (<3mm). [GELB] 
     - Distance between gripper center and part center of mass is high. Check if gripper force can safely compensate the tilting moment. [GELB]
- 
-![Alternativtext](https://github.com/maierobe/Zwischenloesung/blob/main/images/result___binary_mask_4___gripper_1.png)
+
+<img src="images/result___binary_part_4___gripper_1.png" alt="" width="200px" />
 
 - Gripper Dateiformat: Sowohl PNG- als auch SVG-Dateien können verarbeitet werden. 
 
@@ -48,7 +48,9 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 - Belohnt wird folgender Einflussparameter: 
 
 	- Abstand des Greiferpunkt-Rands vom nächstgelegenen verbotenen Bereich: Bis zu einer Schwelle von 5mm steigt dieser Wert proportional an und anschließend mit einer gedämpften Steigung (Faktor 0.15). So wird eine Entfernung vom Bauteil-Randbereich belohnt, und gleichzeitig die Positionierung in der Mitte großer freier Bauteilflächen nicht übermäßig bevorzugt. Dieser Einflussfaktor kann in einer Distanzkarte visualisiert werden (siehe Abbildung unten links)
-	
+
+<img src="images/result___part_4___gripper_1.png" alt="" width="200px" />
+
 ![Alternativtext](https://github.com/maierobe/Zwischenloesung/blob/main/images/result___binary_mask_2___gripper_1.png)
 
 ![Alternativtext](https://github.com/maierobe/Zwischenloesung/blob/main/images/result___binary_mask_4___gripper_5.png)
