@@ -28,7 +28,7 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 
  - Visualisierung: Im output-Ordner wird zu jedem Bauteil-Greifer-Paar eine Visualisierung der gefundenen Position abgespeichert. Darin sind neben dem Greifer auch der Greifermittelpunkt, der Bauteilschwerpunkt sowie die Positionierungsparameter (x, y, Winkel) zu erkennen. 
 
-![s]([Zwischenloesung/images/result___part_2___gripper_1 (1)](https://github.com/maierobe/Zwischenloesung/blob/main/images/result___part_2___gripper_1%20(1).png))
+![s](https://github.com/maierobe/Zwischenloesung/blob/main/images/result___part_2___gripper_1%20(1).png))
 
 - Warnings und Errors: Die gefundene Greiferpositionierung wird in unserem Algorithmus auf kritische Eigenschaften, wie bspw. die Nähe zu Randbereichen, geprüft. Warnungen werden in rot oder gelb im Terminal ausgegeben und in der Visualisierungs-png abgespeichert. Zudem ist in der Ergebnis-csv-Datei eine weitere Spalte mit dem key “annotation” vorhanden, in der diese Warnungen zu finden sind. Folgende Warnungen sind möglich:  
 
