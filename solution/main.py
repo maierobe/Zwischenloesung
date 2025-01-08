@@ -15,8 +15,6 @@ import helper_mainloop as hmain
 import helper_load_model as hloadmodel
 import helper_run_model as hrunmodel
 
-
-#########################
 import cv2
 
 def compute_amazing_solution(
@@ -30,36 +28,19 @@ def compute_amazing_solution(
     """
 
     try:
-        # load image mask
+        # Calculate mask with custom cv model
         mask = hrunmodel.run_model(part_image_path, model)
         mask_array = np.array(mask)
         mask_array = cv2.bitwise_not(mask_array)
 
-
-        ################################
-        # TODO: Mask-Generierung von Robert/Johannes hier einfügen, statt masks von path zu laden
-        ################################
-
+        # Find optimal gripper position 
         xpos, ypos, anglepos, warningInfo = hpos.main_get_position_and_visualization(mask_array, gripper_image_path,
                                                                                      part_image_path,
-                                                                                     results_file_path)  # TODO: mask path durch image path ersetzen, da mask später nicht abgespeichert wird.
-
-        # Handle warnings that (on purpose) didnt trigger a calculation termination, but shall be saved in the results folder
-        # TODO: warning auch in Bild einfügen!!!!!!! -- alle warnings!
-
-        # warningString, warningColor, exitCode = warningInfo.interpretWarning()
-        # if warningString == '':
-        #    warningMessage = ''
-        # else:
-        #    warningMessage = "WARNING: "+warningString
+                                                                                     results_file_path)  
         exitCode = warningInfo.exitCode
         warningMessage = warningInfo.message
         warningInfo.getPrintWarningString(part_image_path,
                                           gripper_image_path)  # warningInfo already containes an interpreted error message etc.
-
-        ################################
-        # TODO: Abspeichern der Ergebnisse
-        ################################
 
     except CustomError as e:
         # GLOBAL ERROR HANDLING FOR POSITIONING ALGORITHM:
@@ -75,11 +56,6 @@ def compute_amazing_solution(
         #
         print(f"\033[91mERROR: {e.message}\033[0m")  # rot: 91, gelb: 93
         exitCode = 1
-        # ----------------
-        ################################
-        # TODO: alle Subfunktionen absichern, sodass diese bei Problemen einen CustomError raisen und bis hier weitergeben
-        # TODO: im falle eines Errors mit exit code 1 statt 0 das Programm beenden --> was tun wenn nur einer von mehreren gripper-image-pairs einen Error schmeißt?
-        ################################
         raise e
     except Exception as e:
         # Handle all other unexpected exceptions  
