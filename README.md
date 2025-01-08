@@ -36,7 +36,7 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
     - There are some gripper points near the edge (<3mm). [GELB] 
     - Distance between gripper center and part center of mass is high. Check if gripper force can safely compensate the tilting moment. [GELB]
  
-![Alternativtext](result___binary_mask_4___gripper_1](https://github.com/maierobe/Zwischenloesung/blob/main/images/result___binary_mask_4___gripper_1.png)
+![Alternativtext](https://github.com/maierobe/Zwischenloesung/blob/main/images/result___binary_mask_4___gripper_1.png)
 
 - Gripper Dateiformat: Sowohl PNG- als auch SVG-Dateien können verarbeitet werden. 
 
