@@ -15,14 +15,10 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 
 ![Python Version](https://img.shields.io/badge/Python-3.12-blue) 
 
-<hr style="border: 1px solid black;"> 
-
 ## How to Run 
 
 1. CV-Modell "RMS_cv_model.pth" von der Drive "ProKI-Hackathon2024-Submissions" aus der Zip-Datei "Team-Zwischenloesung-CV-Modell" laden und in den Solution-Ordner legen.
 2. Ausführen von `python solution/main.py path/to/input/tasks.csv output/solutions.csv` in der CMD.
-
-<hr style="border: 500px solid black;"> 
 
 ## ✨ Besondere Funktionen unserer Lösung 
 
