@@ -82,19 +82,19 @@ Zur Bestimmung der Netzauflösung von Coarse- und Fine-Search ist ein Algorithmu
 
 ## 🤖 Modellparameter vom Computer Vision Ansatz 
 
-Modellarchitektur (U-Net mit EfficientNet-B7 als Encoder): 
+### Modellarchitektur (U-Net mit EfficientNet-B7 als Encoder) 
 
 Aufgrund ihrer bewährten Leistung in Bildsegmentierungsaufgaben wurde die U-Net-Architektur gewählt. Sie ermöglicht die Extraktion sowohl globaler als auch lokaler Merkmale, die für die Bearbeitung von verrauschten und variierenden Bildern essenziell sind. Die Integration des Encoders EfficientNet-B7 erfolgte unter anderem aufgrund seiner hohen Kapazität und Effizienz, die ihn für die Extraktion von Merkmalen aus komplexen und hochdimensionalen Bilddaten prädestinieren. Dies unterstützt die Bewältigung der Bildvariabilität und ermöglicht eine robuste Segmentierung trotz vorhandener Störungen. 
 
-Optimizer (RMSprop): 
+### Optimizer (RMSprop)
 
 Die Wahl von RMSprop als Optimizer erfolgte aufgrund seiner spezifischen Fähigkeit, insbesondere bei verrauschten Gradienten, eine konsistente und effiziente Optimierung zu gewährleisten. Dies ist von besonderer Relevanz, da bei stark verrauschten und unscharfen Bildern die Gradienten häufig uneinheitlich sind. 
 
-Aktivierungsfunktion (Sigmoid): 
+### Aktivierungsfunktion (Sigmoid)
 
 Die Verwendung der Sigmoid-Aktivierungsfunktion am Ende des Modells fördert die binäre Segmentierung der Labels. Die Anwendung dieser Funktion ermöglicht die präzise Vorhersage von Wahrscheinlichkeiten für die Zugehörigkeit zu einer bestimmten Klasse, was in diesem Fall einen wesentlichen Beitrag zur Kantenerkennung leistet. 
 
-Loss-Funktion (JaccardLoss): 
+### Loss-Funktion (JaccardLoss)
 
 Die Jaccard-Loss-Funktion wurde ausgewählt, da sie sich für Segmentierungsaufgaben mit ungleichen Klassenverteilungen als geeignet erwiesen hat. Sie maximiert die Ähnlichkeit zwischen den vorhergesagten Segmenten und den tatsächlichen Labels und gleicht dabei die Auswirkungen von verrauschten oder unvollständigen Label-Definitionen aus. 
 
