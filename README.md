@@ -42,15 +42,15 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 
 ## Funktionsweise der Positionierung und Scoring 
 
--Der Positionierungsalgorithmus basiert auf einem Scoring-System mit verschiedenen linearen und nichtlinearen Einflussparametern. In diesem Scoring wird jeder einzelne Greiferpunkt bewertet und schließlich die Summe der Einzelscores gebildet.  
+- Der Positionierungsalgorithmus basiert auf einem Scoring-System mit verschiedenen linearen und nichtlinearen Einflussparametern. In diesem Scoring wird jeder einzelne Greiferpunkt bewertet und schließlich die Summe der Einzelscores gebildet.  
 
--Belohnt wird folgender Einflussparameter: 
+- Belohnt wird folgender Einflussparameter: 
 
-- Abstand des Greiferpunkt-Rands vom nächstgelegenen verbotenen Bereich: Bis zu einer Schwelle von 5mm steigt dieser Wert proportional an und anschließend mit einer gedämpften Steigung (Faktor 0.15). So wird eine Entfernung vom Bauteil-Randbereich belohnt, und gleichzeitig die Positionierung in der Mitte großer freier Bauteilflächen nicht übermäßig bevorzugt. Dieser Einflussfaktor kann in einer Distanzkarte visualisiert werden (siehe Abbildung unten links) 
-- Bestraft werden dagegen:
+	- Abstand des Greiferpunkt-Rands vom nächstgelegenen verbotenen Bereich: Bis zu einer Schwelle von 5mm steigt dieser Wert proportional an und anschließend mit einer gedämpften Steigung (Faktor 0.15). So wird eine Entfernung vom Bauteil-Randbereich belohnt, und gleichzeitig die Positionierung in der Mitte großer freier Bauteilflächen nicht übermäßig bevorzugt. Dieser Einflussfaktor kann in einer Distanzkarte visualisiert werden (siehe Abbildung unten links) 
+	- Bestraft werden dagegen:
 
-- Euklidische Distanz zwischen Greifermittelpunkt und Bildschwerpunkt: So werden Kippmomente auf den Greifer möglichst reduziert. Der Bildschwerpunkt wird aus Bauteilgeometrie ermittelt, die von unserem Computer-Vision-Modell in Form einer Maske erkannt wird. Bohrungen und Ausstanzungen werden hier also berücksichtigt. 
-- Nähe zum verbotenen Bereich < 3mm: In diesem Randbereich wird eine zusätzliche Bestrafung vorgenommen, wodurch ein Sicherheitsabstand bevorzugt wird. So können Ungenauigkeiten (bspw. In der Bewegung und Positionierung des Greifarms) berücksichtig werden. Der Parameter (min_distance_to_forbidden_area) kann geändert werden. 
+		- Euklidische Distanz zwischen Greifermittelpunkt und Bildschwerpunkt: So werden Kippmomente auf den Greifer möglichst reduziert. Der Bildschwerpunkt wird aus Bauteilgeometrie ermittelt, die von unserem Computer-Vision-Modell in Form einer Maske erkannt wird. Bohrungen und Ausstanzungen werden hier also berücksichtigt. 
+		- Nähe zum verbotenen Bereich < 3mm: In diesem Randbereich wird eine zusätzliche Bestrafung vorgenommen, wodurch ein Sicherheitsabstand bevorzugt wird. So können Ungenauigkeiten (bspw. In der Bewegung und Positionierung des Greifarms) berücksichtig werden. Der Parameter (min_distance_to_forbidden_area) kann geändert werden. 
 
 - Out of boundary: Ragen Greiferpunkte in den als verboten identifizierten Bereich, so wird eine enorm hohe Bestrafung durchgeführt. So werden diese Positionen nur ausgewählt, wenn keine andere Möglichkeit besteht.  
 - Um die optimale Greiferposition möglichst effizient zu finden, wird die Suche in drei Stufen unterteilt: 
@@ -59,7 +59,7 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 	- Die Fine-Search prüft einen dynamisch an das Netz der groben Suche angepassten Suchbereich auf die optimale Lösung. Dabei wird mit einer Genauigkeit von 1px bzw. 1grad iteriert. 
 	- Schließlich wird bei der Decimal-Search im Bereich um die beste Lösung der Fine-Search gesucht und die erste Nachkommastelle der optimalen Greiferposition bestimmt. 
 
--Zur Bestimmung der Netzauflösung von Coarse- und Fine-Search ist ein Algorithmus implementiert, der abhängig von Greifergröße, Anzahl Greiferpunkte, Bauteilgröße und gewünschtem Rechenaufwand (search_param_num_iter) die Suchräume diskretisiert. So kann bei verschiedensten Kombinationen von Greifern und Bauteilen eine näherungsweise konstante Berechnungszeit gewährleistet werden. Dies geschieht, indem mathematische Zusammenhänge zwischen dem Rechenaufwand und der Netzauflösung sowie der Greiferkomplexität aufgelöst werden und eine feste Beziehung zwischen den Netzen der Coarse- und Fine-Search festgelegt ist. 
+- Zur Bestimmung der Netzauflösung von Coarse- und Fine-Search ist ein Algorithmus implementiert, der abhängig von Greifergröße, Anzahl Greiferpunkte, Bauteilgröße und gewünschtem Rechenaufwand (search_param_num_iter) die Suchräume diskretisiert. So kann bei verschiedensten Kombinationen von Greifern und Bauteilen eine näherungsweise konstante Berechnungszeit gewährleistet werden. Dies geschieht, indem mathematische Zusammenhänge zwischen dem Rechenaufwand und der Netzauflösung sowie der Greiferkomplexität aufgelöst werden und eine feste Beziehung zwischen den Netzen der Coarse- und Fine-Search festgelegt ist. 
  
 
 ## Modellparameter vom Computer Vision Ansatz 
