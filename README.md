@@ -15,7 +15,8 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 
 ## How to Run 
 
-// How to run your code, e.g., `python solution/main.py path/to/input/tasks.csv output/solutions.csv` // 
+1. CV-Modell "RMS_cv_model.pth" von der Drive "ProKI-Hackathon2024-Submissions" aus der Zip-Datei "Team-Zwischenloesung-CV-Modell" laden und in den Solution-Ordner legen.
+2. Ausführen von `python solution/main.py path/to/input/tasks.csv output/solutions.csv` in der CMD.
 
 ## Besondere Funktionen unserer Lösung 
 
@@ -93,4 +94,6 @@ Bei der Verwendung eines Laptops ist darauf zu achten, dass dieser nicht im Ener
 
 Unsere Ausführungszeiten:  
 
-Laptop – Intel i5 11th Gen (2020) - keine GPU: ~2 Sekunden pro Greifer-Bauteil-Paar 
+Laptop – Intel i5 11th Gen (2020) - keine GPU: ~2 Sekunden pro Greifer-Bauteil-Paar
+
+Falls die Ausführungszeit bei Ihrem Rechner >3 Sekunden beträgt, verringern Sie die Variable search_param_num_iter in der Funktion main_get_position_and_visualization() in  solution/helper_positioning.py
