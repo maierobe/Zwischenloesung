@@ -20,7 +20,11 @@ import given_functions
 
 
 def main_get_position_and_visualization(mask_np_array, gripper_path_win: Path, image_path_win: Path, results_file_path: Path):
-
+    '''
+    This is the main function of the positioning algorithm. It finds the optimal position of a given gripper in a given part mask.
+    The calculated position (x, y, angle) is visualised in an image plot and saved in the output folder.
+    Parameters, such as search_param_num_iter and min_distance_to_forbidden_area, which influence the positioning algorithm, are definded in this function.
+    '''
     ######## PARAMETER #########
     min_distance_to_forbidden_area = 3 #
     static_cap_excl_gripper_radius = 5 # Positionen mit >Xmm Abstand vom Gripper zur Kante werden nur noch leicht betraft
@@ -309,21 +313,6 @@ def load_gripper_from_png(gripper_png_path):
         circle_centers.append((int(x-padding), int(y-padding))) # dont forget to remove the manually added padding here
         circle_radii.append(int(radius))
 
-    ### debug image
-    #output_image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
-    #for center, radius in zip(circle_centers, circle_radii):
-    #    cv2.circle(output_image, center, radius, (0, 255, 0), 2)  # Draw the circle
-    #    cv2.circle(output_image, center, 2, (0, 0, 255), -1)  # Draw the center
-
-    # Show the result
-    #plt.imshow(output_image)
-    #plt.title("Detected Circles")
-    #plt.axis('off')
-    #plt.show()
-
-    ###
-
-
     return np.array(circle_centers), np.array(circle_radii), image.shape
 
 def load_gripper_from_svg(svg_path, scale=1.0):
@@ -376,12 +365,13 @@ def load_gripper_from_svg(svg_path, scale=1.0):
         gripper_points[idx] = gripper_points[idx] + transform
     radii = np.array(radii)
 
-
-
     return gripper_points, radii, (svg_height, svg_width) # TO BE VALIDATED!!!
 
 
 def check_png_symmetry(image_path):
+    '''
+    Checks a gripper png for symmetry to allow a more efficient search algorithm.
+    '''
     image = Image.open(image_path).convert('L')
     image_array = np.array(image)
     flipped_image_array = np.flip(image_array, axis=1)
@@ -395,8 +385,6 @@ def check_png_symmetry(image_path):
 
 
 def rotate_points(points, angle, origin):
-  
-    ######
     # Umwandlung des Winkels von Grad in Bogenmaß
     angle_radians = np.deg2rad(angle)
     
@@ -418,74 +406,40 @@ def rotate_points(points, angle, origin):
 
 def coarse_search(dist_map, gripper_points, radii, min_distance_to_forbidden_area, bounds, gripper_shape, part_center_of_mass, max_angle, search_area, coarse_step_size_x, coarse_step_size_y, coarse_step_size_angle ):
     """
-    Perform the coarse search with a larger step size.
+    Perform the coarse search with a larger step size on a given grid.
     """
     gripper_center = (gripper_shape[0]/2, gripper_shape[1]/2) # nicht gerundet!
-    #min_gripper_dist_half = np.floor(min(gripper_shape)/2).astype(int)
-    #search_area = (bounds[0] + min_gripper_dist_half, bounds[1] - min_gripper_dist_half, 
-    #               bounds[2] + min_gripper_dist_half, bounds[3] - min_gripper_dist_half)
-    #search_shape = (search_area[1] - search_area[0], search_area[3] - search_area[2])
-
-    #coarse_step_size_x = np.ceil(search_shape[0]/coarse_step_amount).astype(int)
-    #coarse_step_size_y = np.ceil(search_shape[1]/coarse_step_amount).astype(int)
-    #coarse_step_size_angle = np.ceil(max_angle/(2*coarse_step_amount)).astype(int) # doppelte Auflösung bei Winkel - max angle neu hier
 
     best_score = -np.inf
     best_position = None
     best_angle = None
 
-    #debug_save_score = []
-
     # Coarse search over positions
-    #print('COARSE SEARCH AREA')
-    #print("x - " + str(range(search_area[0], search_area[1], coarse_step_size_x)) + "        len: " + str(len(range(search_area[0], search_area[1], coarse_step_size_x)))) 
-    #print("y - " + str(range(search_area[2], search_area[3], coarse_step_size_y))+ "        len: " + str(len(range(search_area[2], search_area[3], coarse_step_size_y))))
-    #print("angle - " + str(np.arange(0, max_angle, coarse_step_size_angle))+ "        len: " + str(len(np.arange(0, max_angle, coarse_step_size_angle))))
     for x in range(search_area[0], search_area[1], coarse_step_size_x):
         for y in range(search_area[2], search_area[3], coarse_step_size_y):
             for angle in np.arange(0, max_angle, coarse_step_size_angle):
-                score = evaluate_position(dist_map, gripper_points, gripper_center, radii, (x, y), angle, min_distance_to_forbidden_area, part_center_of_mass) ################################### 
-                ### wie wird score von sub-quadrat/dub-pixel berechnet (sollte gesamtes subquadrat bewerten)
-                #debug_save_score.append(score)
+                score = evaluate_position(dist_map, gripper_points, gripper_center, radii, (x, y), angle, min_distance_to_forbidden_area, part_center_of_mass) 
                 if score > best_score:
                     best_score = score
                     best_position = (x, y)
                     best_angle = angle
-                
-    #print("--> result")
-    #print("x - " + str(best_position[0])) 
-    #print("y - " + str(best_position[1]))
-    #print("angle - " + str(best_angle))
-    #plt.plot(debug_save_score)
-    #print("=================================== " + str(len(radii)*len(debug_save_score)))
-    #plt.title('coarse search')
-    #plt.show()
 
     return best_position, best_angle, best_score
 
 
 def fine_search(dist_map, gripper_points, radii, min_distance_to_forbidden_area, gripper_shape, coarse_position, coarse_angle, part_center_of_mass, fine_search_area_half_x, fine_search_area_half_y, fine_search_area_half_angle):
     """
-    Perform a finer search around the best coarse position and angle.
+    Perform a finer search around the best coarse position and angle with a given search area.
     """
     gripper_center = (gripper_shape[0]/2, gripper_shape[1]/2) # nicht gerundet!
 
     best_score = -np.inf
     best_position = coarse_position
     best_angle = coarse_angle
-
-    #debug_save_score = []
     
     # Fine search over positions
     fine_step_size = 1
     
-    #print('FINE SEARCH AREA')
-    #print("x - " + str(np.arange(coarse_position[0] - fine_step_size*fine_search_area_half_x, coarse_position[0] + fine_step_size*fine_search_area_half_x, fine_step_size))) 
-    #print("      len:  " + str(len(np.arange(coarse_position[0] - fine_step_size*fine_search_area_half_x, coarse_position[0] + fine_step_size*fine_search_area_half_x, fine_step_size)))) 
-    #print("y - " + str(np.arange(coarse_position[1] - fine_step_size*fine_search_area_half_y, coarse_position[1] + fine_step_size*fine_search_area_half_y, fine_step_size)))
-    #print("      len:  " + str(len(np.arange(coarse_position[1] - fine_step_size*fine_search_area_half_y, coarse_position[1] + fine_step_size*fine_search_area_half_y, fine_step_size))))
-    #print("angle - " + str(np.arange(coarse_angle - fine_step_size*fine_search_area_half_angle, coarse_angle + fine_step_size*fine_search_area_half_angle, fine_step_size)))
-   # print("      len:  " + str(len(np.arange(coarse_angle - fine_step_size*fine_search_area_half_angle, coarse_angle + fine_step_size*fine_search_area_half_angle, fine_step_size))))
     for x in np.arange(coarse_position[0] - fine_step_size*fine_search_area_half_x, coarse_position[0] + fine_step_size*fine_search_area_half_x, fine_step_size):
         for y in np.arange(coarse_position[1] - fine_step_size*fine_search_area_half_y, coarse_position[1] + fine_step_size*fine_search_area_half_y, fine_step_size):
             for angle in np.arange(coarse_angle - fine_step_size*fine_search_area_half_angle, coarse_angle + fine_step_size*fine_search_area_half_angle, fine_step_size):
@@ -496,20 +450,11 @@ def fine_search(dist_map, gripper_points, radii, min_distance_to_forbidden_area,
                     best_position = (x, y)
                     best_angle = angle
 
-    #print("--> result")
-    #print("x - " + str(best_position[0])) 
-    #print("y - " + str(best_position[1]))
-    #print("angle - " + str(best_angle))
-    #plt.plot(debug_save_score)
-    #print("=================================== " + str(len(radii)*len(debug_save_score)))
-    #plt.title('fine search')
-    #plt.show()
-
     return best_position, best_angle, best_score
 
 def decimal_search(dist_map, gripper_points, radii, min_distance_to_forbidden_area, gripper_shape, fine_position, fine_angle, part_center_of_mass):
     """
-    Perform a finer search around the best coarse position and angle.
+    Perform a precision search around the best fine position and angle.
     """
     gripper_center = (gripper_shape[0]/2, gripper_shape[1]/2) # nicht gerundet!
 
@@ -531,17 +476,15 @@ def decimal_search(dist_map, gripper_points, radii, min_distance_to_forbidden_ar
     return best_position, best_angle, best_score
 
 
-def evaluate_position(dist_map, gripper_points, gripper_center, radii, position, angle, min_distance_to_forbidden_area, part_center_of_mass, doPlotting=False):##########################################################################
+def evaluate_position(dist_map, gripper_points, gripper_center, radii, position, angle, min_distance_to_forbidden_area, part_center_of_mass, doPlotting=False):
     """
-    Evaluate the score for a given position and angle by calculating the distance between the
-    gripper points and the map.
-
+    Evaluate the score for a given position and angle by taking the distance to the nearest forbidden
+    area and the distance between the gripper center and the part center of mass.
+    
     ATTENTION: for analysis/interpretation of a given position use the more computationally
     intensive function evaluate_and_analyse_position()
     """
-    #min_distance_to_forbidden_area = 0 ###########
-
-
+ 
     # Rotate the gripper points based on the given angle
     rotated_gripper_points = rotate_points(gripper_points, angle, (0,0)) + [position[0], position[1]] # Rotation um Greifermitte (IMMER (0,0) !), dann Translation
     
@@ -562,12 +505,10 @@ def evaluate_position(dist_map, gripper_points, gripper_center, radii, position,
             # Innerhalb des Bauteils
             if dist_map[y,x] > min_distance_to_forbidden_area + radius:
                 # Hält gewünschten Abstand zu verbotenen Zonen ein
-                ###score += multiplier_distance*(dist_map[y, x] - radius)
                 list_of_regular_distances.append(dist_map[y, x] - radius)
                 
             elif dist_map[y,x] >= radius:
                 # Unterschreitet gewünschten Abstand zu verbotenen Zonen, aber immernoch >=0
-                ###score += multiplier_distance*(dist_map[y, x] - radius) - damage_near_edge
                 score -= damage_near_edge
                 list_of_regular_distances.append(dist_map[y, x] - radius)
 
@@ -589,33 +530,14 @@ def evaluate_position(dist_map, gripper_points, gripper_center, radii, position,
     delta_ys = np.abs(np.mean(rotated_gripper_points[:,1]) - part_center_of_mass[1])
     score = score - multiplier_schwerp*np.linalg.norm([delta_xs, delta_ys])
 
-
-    ############
-    # Debugging: watch the iterations of coarse search
-    #if doPlotting:
-    #    try:      
-    #        print("SCORE of plot: " + str(score))
-    #        plt.figure(1)
-    #        plt.imshow(dist_map, cmap='hot')
-    #        plt.colorbar()
-    #        plt.title("Distanzkarte")
-
-    #        # Plot the gripper geometry with actual radii
-    #        for point, radius in zip(rotated_gripper_points, radii):
-    #            circle = patches.Circle((point[0], point[1]), radius=radius, color='black', fill=False)
-    #            plt.gca().add_patch(circle)
-    #            plt.scatter(point[0], point[1], color='black', marker='x',s=10, )
-    #        #
-
-    #        plt.scatter(position[0], position[1], color='blue', s=20)
-    #        plt.show()
-    #    except:
-    #        print('plotting failed')
-
     return score
 
 def evaluate_and_analyse_position(dist_map, gripper_points, gripper_center, radii, position, angle, min_distance_to_forbidden_area, part_center_of_mass, gripper_image_path_win, mask_image):
-
+    '''
+    Analysis of a given position regarding the number of grippers overlapping with the forbidden area,
+    the number of grippers near the edge and the distance between the gripper center and the
+    part center of mass.
+    '''
     # Initiate result variables
     num_of_grippers = len(radii)
     num_of_grippers_near_edge_0_to_Xmm = 0 # dependent on min_distance_to_forbidden_area
@@ -695,25 +617,19 @@ def evaluate_and_analyse_position(dist_map, gripper_points, gripper_center, radi
     return num_of_grippers, num_of_grippers_near_edge_0_to_Xmm, is_over_edge, schwerpunkt_distanz_flag
 
 def find_optimal_gripper_position(dist_map, gripper_points, radii, min_distance_to_forbidden_area,  bounds, gripper_shape, part_center_of_mass, num_iterations, fine_multipl_angle, fine_step_size=1, max_angle=360):
+    '''
+    This function combines coarse-, fine- and decimal-search to find the best position
+    of the gripper on the given binary mask.
+    '''
 
-    # Coarse_step_amount anpassen in abh. der Gripper-Komplexität
-    # Alte Herangehensweise:
-    #amount_of_gripper_elements = len(radii)
-    #Stuetzstellen = np.array([[1,20], [4, 18], [10,16], [30, 8], [100, 6]])
-    #f_linear_extrap = interp1d(Stuetzstellen[:,0], Stuetzstellen[:,1], kind='linear', fill_value="extrapolate")
-    #coarse_step_amount = np.round(f_linear_extrap(amount_of_gripper_elements)).astype(int)
-    #print("USING "+str(coarse_step_amount)+" as coarse step amount!")
-    # Neue Herangehensweise: Gitter für coarse und fine search aneinander koppeln und für feste Anzahl Iterationen ermitteln
     try:
         coarse_search_area, coarse_step_size_x, coarse_step_size_y, coarse_step_size_angle, fine_area_half_x, fine_area_half_y, fine_area_half_angle = calculate_coarse_and_fine_grid(
             bounds, gripper_shape, gripper_points, max_angle, fine_multipl_angle, num_iterations
             )
-        #print("Coarse grid:\n" + " x-step: " + str(coarse_step_size_x) + " y-step: " + str(coarse_step_size_y) + " angle-step: " + str(coarse_step_size_angle) + "\nFine grid:\n" + " x-amount: " +  str(fine_area_half_x) + " y-amount: " +  str(fine_area_half_y) + " angle-amount: " +  str(fine_area_half_angle))
-        
 
         # Step 1: Perform coarse search
         coarse_position, coarse_angle, best_coarse_score = coarse_search(dist_map, gripper_points, radii, min_distance_to_forbidden_area, bounds, gripper_shape, part_center_of_mass, max_angle, coarse_search_area, coarse_step_size_x, coarse_step_size_y, coarse_step_size_angle)
-        #print("best score in coarse search: " + str(best_coarse_score))
+        
         # If no valid position was found during the coarse search, return None
         if coarse_position is None:
             print("No valid position found in coarse search!")
@@ -738,7 +654,38 @@ def find_optimal_gripper_position(dist_map, gripper_points, radii, min_distance_
 
 
 def calculate_coarse_and_fine_grid(bounds, gripper_shape, gripper_points, max_angle, fine_angle_multiplier_fallback, num_iterations):
+    '''
+    Calculates the coarse and fine grid based on the desired computational effort (num_iterations)
+    the part size and the gripper complexity. This enables a nearly constant calculation time for different
+    gripper complexitys and part sizes.
     
+    ---------------------------------------------------------------
+    This code is based on the following mathematical considerations:
+    Number_of_Iterations = g * (2c³ + fx + fy + fa)
+        with g = Number of Gripper points
+        c = Number of discretization points in coarse search (*2, as angles are checked with double resolution)
+        fx, fy, fa = Width of the fine-search area in the x-direction, y-direction, angular dimension (due to search precision of 1px or 1deg)
+   
+    Relationship between coarse and fine-search grid:
+    The fine grid should always cover a search area of +/- 1 times the step size of the coarse grid in all dimensions, with a precision of 1 pixel or 1 degree.
+
+        fx = 2coarse_step_size_x = (2search_space[0]) / c
+        fy = 2coarse_step_size_y = (2search_space[1]) / c
+            where search space represents the search area, i.e., the image dimensions reduced by the minimum half gripper width.
+
+        fa = fine_angle_multiplier*max_angle / c
+
+    Computational effort with higher gripper complexity:
+    Since the computational effort increases non-linearly with higher gripper complexity (g) due to calculations on intermediate loop levels, the influence of the gripper is dampened with:
+    g = 0.4*num_g + 5
+    
+    Solving the resulting mathematical problem:
+    The resulting mathematical problem is not always solvable (especially with low selected n_iter and large components).
+    As a fallback solution, the following approach is implemented:
+
+        Use 90% of the available iterations for the coarse search and 10% for the fine search.
+    
+    '''
 
     num_g = len(gripper_points) #number of grippers
     # Einfluss des Grippers dämpfen, denn in mittleren Schleifen finden ebenfalls Berechungen statt--> doppelte Gripperanzahl ist weniger als doppelte Berechnungszeit
@@ -776,9 +723,6 @@ def calculate_coarse_and_fine_grid(bounds, gripper_shape, gripper_points, max_an
 
     else:
         #num_iterations wurde zu klein gewählt und Problem ist nicht lösbar --> erhöhen von num_iterations auf minimum zum Teil mit hohen Rechenzeiten verbunden
-        #num_iterations = np.ceil(g*math.sqrt(8*Kc)) # aus Bedingung determinante_1 = 0
-        #determinante_1 = (-num_iterations/g)**2 - 4*2*Kc
-        #print("WARNUNG! num_iterations zu klein! Wurde temporär auf " + str(num_iterations) + " erhöht.")
 
         #Fallback-Lösung:
         # Aufteilung von num_iter auf 10% fine search und 90% coarse search. Güte der Lösung gefährdet, aber Rechenzeit hat Vorrang
@@ -807,14 +751,8 @@ def calculate_coarse_and_fine_grid(bounds, gripper_shape, gripper_points, max_an
 def calculate_distance_map(image_array, gripper_radii, is_forbidden_area_black, static_cap_excl_gripper_radius,slight_gradient_multiplier ):
     """
     Berechnet die Distanzkarte eines Bildes basierend auf verbotenen Bereichen.
-    Verbotene Bereiche sind Pixel, bei denen alle Farbkanäle null sind.
-    
-    Args:
-        image_array (np.ndarray): Eingabebild als NumPy-Array mit Shape (H, W, C) oder (H, W).
-        
-    Returns:
-        np.ndarray: Distanzkarte mit Shape (H, W), wobei jeder Wert die Distanz
-                    zum nächsten verbotenen Pixel angibt.
+    Verbotene Bereiche sind schwarze/weiße Pixel, je nach is_forbidden_area_black-Variable.
+    Zudem wird eine Skalierung von weit vom Rand entfernten Bildpunkten vorgenommen (siehe Readme).
     """
     # Prüfe, ob das Bild mehr als eine Farbebene hat (z. B. RGB).
     if image_array.ndim == 3:  # Shape (H, W, C)
@@ -836,22 +774,14 @@ def calculate_distance_map(image_array, gripper_radii, is_forbidden_area_black, 
     forbidden_mask[-1, :] = True  # Untere Kante
     forbidden_mask[:, 0] = True  # Linke Kante
     forbidden_mask[:, -1] = True  # Rechte Kante
-        #TODO: ACHTUNG, aktive Veränderung des äußersten Pixels
-        #TODO: evtl. ohne diese Bedingung besser?
     
     # Invertiere die Maske: 1 für erlaubte Bereiche, 0 für verbotene Bereiche
     inverted_mask = ~forbidden_mask
     
     # Berechne die Distanzkarte (Entfernung zu den nächsten verbotenen Pixeln)
     distance_map = distance_transform_edt(inverted_mask)
-    
-    # Filtere die Distanzkarte (Maximalwert-Begrenzung auf Basis des Gripper-Radius)
-    #maximum_distmap_value_on_top_of_gripper_radius = 5m+
 
     max_gripper_radius = max(gripper_radii)
-    
-    #static_cap_excl_gripper_radius = 6
-    #slight_gradient_multiplier = 0.25
 
     def transform_distance_map(map, static_cap, delta_factor=0.25):
         # Create a mask for values greater than the threshold (static_cap_excl_gripper_radius)
@@ -864,25 +794,7 @@ def calculate_distance_map(image_array, gripper_radii, is_forbidden_area_black, 
         return result
     
     distance_map = transform_distance_map(distance_map, static_cap_excl_gripper_radius + max_gripper_radius, slight_gradient_multiplier)
-
-    ##value_cap_wo_radius = maximum_distmap_value_on_top_of_gripper_radius * (np.max(distance_map) - max_gripper_radius)
-    #if value_cap_wo_radius >10: # cap to 10 für Bauteile mit einzelnen sehr großen freien Flächen!
-    #    value_cap_wo_radius = 10
-    ##distance_map = np.clip(distance_map, None, max_gripper_radius + value_cap_wo_radius)
-
-
-    #plt.figure(1)
-    #plt.imshow(distance_map, cmap='hot')
-    #plt.colorbar()
-    #plt.figure(2)
-    #plt.imshow(trans_distance_map, cmap='hot')
-    #plt.colorbar()
-    #plt.title('new')
-    #plt.show()
-    #percentile_dist = np.percentile(distance_map[distance_map != 0], 90)
-
-    
-
+  
 
     return distance_map
 
