@@ -1,0 +1,3 @@
+part,gripper,x,y,angle,annotation,score
+data\dummy\part_1\part_1.png,data\dummy\part_1\gripper_2.png,153.5,187.9,278.2,,0.07656414934887765
+data\dummy\part_2\part_2.png,data\dummy\part_2\gripper_1.png,121.5,73.5,286.7,,0.012650887053208503
