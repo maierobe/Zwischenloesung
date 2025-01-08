@@ -20,7 +20,7 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 
 ## Besondere Funktionen unserer Lösung 
 
-### Greifermittelpunkt(**Wichtig**)
+### Greifermittelpunkt (**Wichtig**)
 
 Die Optimierung der Positionierung erfolgt zum **Bauteilschwerpunkt** und nicht dem Bildmittelpunkt. Diese Optimierung ist bewusst nicht auf die Aufgabenstellung ausgerichtet, sondern auf das reale Problem. Da der Schwerpunkt in unserer Lösung die tatsächliche physikalische Balance der vorhandenen Bauteilgeometrie berücksichtigt, werden präziseres und sicheres Greifen mit niedrigen Kippmomenten auf den Greifarm ermöglicht.  
 
