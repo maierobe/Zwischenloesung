@@ -18,10 +18,10 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 ## How to Run 
 
 1. CV-Modell "RMS_cv_model.pth" von der Drive "ProKI-Hackathon2024-Submissions" aus der Zip-Datei "Team-Zwischenloesung-CV-Modell" laden und in den Solution-Ordner legen.
-2. Ausführen von `python solution/main.py tasks/task.csv output/solutions.csv` in der CMD.
+2. Ausführen von `python solution/main.py tasks/task.csv output/solutions.csv` in der CMD.<br><br>
 
 
-<br>
+
 ## ✨ Besondere Funktionen unserer Lösung 
 
 ### Greifermittelpunkt (**Wichtig**)
@@ -54,10 +54,10 @@ Die gefundene Greiferpositionierung wird in unserem Algorithmus auf kritische Ei
 
 ### Gripper Dateiformat
 
-Sowohl PNG- als auch SVG-Dateien können verarbeitet werden. 
+Sowohl PNG- als auch SVG-Dateien können verarbeitet werden. <br><br>
 
 
-<br>
+
 ## 🎯 Funktionsweise der Positionierung und Scoring 
 
 Der Positionierungsalgorithmus basiert auf einem Scoring-System mit verschiedenen linearen und nichtlinearen Einflussparametern. In diesem Scoring wird jeder einzelne Greiferpunkt bewertet und schließlich die Summe der Einzelscores gebildet.  
@@ -80,7 +80,7 @@ Um die optimale Greiferposition möglichst effizient zu finden, wird die Suche i
 - Die Fine-Search prüft einen dynamisch an das Netz der groben Suche angepassten Suchbereich auf die optimale Lösung. Dabei wird mit einer Genauigkeit von 1px bzw. 1grad iteriert. 
 - Schließlich wird bei der Decimal-Search im Bereich um die beste Lösung der Fine-Search gesucht und die erste Nachkommastelle der optimalen Greiferposition bestimmt. 
 
-Zur Bestimmung der Netzauflösung von Coarse- und Fine-Search ist ein Algorithmus implementiert, der abhängig von Greifergröße, Anzahl Greiferpunkte, Bauteilgröße und gewünschtem Rechenaufwand (search_param_num_iter) die Suchräume diskretisiert. So kann bei verschiedensten Kombinationen von Greifern und Bauteilen eine näherungsweise konstante Berechnungszeit gewährleistet werden. Dies geschieht, indem mathematische Zusammenhänge zwischen dem Rechenaufwand und der Netzauflösung sowie der Greiferkomplexität aufgelöst werden und eine feste Beziehung zwischen den Netzen der Coarse- und Fine-Search festgelegt ist. 
+Zur Bestimmung der Netzauflösung von Coarse- und Fine-Search ist ein Algorithmus implementiert, der abhängig von Greifergröße, Anzahl Greiferpunkte, Bauteilgröße und gewünschtem Rechenaufwand (search_param_num_iter) die Suchräume diskretisiert. So kann bei verschiedensten Kombinationen von Greifern und Bauteilen eine näherungsweise konstante Berechnungszeit gewährleistet werden. Dies geschieht, indem mathematische Zusammenhänge zwischen dem Rechenaufwand und der Netzauflösung sowie der Greiferkomplexität aufgelöst werden und eine feste Beziehung zwischen den Netzen der Coarse- und Fine-Search festgelegt ist. <br><br>
  
 
 
@@ -100,7 +100,7 @@ Die Verwendung der Sigmoid-Aktivierungsfunktion am Ende des Modells fördert die
 
 ### Loss-Funktion (JaccardLoss)
 
-Die Jaccard-Loss-Funktion wurde ausgewählt, da sie sich für Segmentierungsaufgaben mit ungleichen Klassenverteilungen als geeignet erwiesen hat. Sie maximiert die Ähnlichkeit zwischen den vorhergesagten Segmenten und den tatsächlichen Labels und gleicht dabei die Auswirkungen von verrauschten oder unvollständigen Label-Definitionen aus. 
+Die Jaccard-Loss-Funktion wurde ausgewählt, da sie sich für Segmentierungsaufgaben mit ungleichen Klassenverteilungen als geeignet erwiesen hat. Sie maximiert die Ähnlichkeit zwischen den vorhergesagten Segmenten und den tatsächlichen Labels und gleicht dabei die Auswirkungen von verrauschten oder unvollständigen Label-Definitionen aus. <br><br>
 
 
 
