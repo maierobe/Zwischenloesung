@@ -7,6 +7,15 @@ class CustomError(Exception):
         super().__init__(message)
 
 class CustomWarningInfo:
+    '''
+    This class is used to store information about the interpreted position of the gripper relative to the part.
+    For initialization, 
+    - the number of gripper points
+    - the number of gripper points near the edge
+    - the information, wether the center of mass is too far of the gripper center
+    is needed. Using this information, a warning is created, which contains a warining string, a color and an exit code, which should be
+    retured as a result of the given warning.
+    '''
     def __init__(self, num_of_grippers, num_of_grippers_near_edge_0_to_Xmm, is_over_edge, schwerpunkt_distanz_flag, min_distance_to_forbidden_area):
         self.num_grippers = num_of_grippers
         self.near_edge = num_of_grippers_near_edge_0_to_Xmm
