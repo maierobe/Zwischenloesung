@@ -21,7 +21,7 @@ Die optimale Position des Greifers wird auf Basis des Greiferabstands von verbot
 2. Ausführen von `python solution/main.py tasks/task.csv output/solutions.csv` in der CMD.
 
 
-
+<br>
 ## ✨ Besondere Funktionen unserer Lösung 
 
 ### Greifermittelpunkt (**Wichtig**)
@@ -57,7 +57,7 @@ Die gefundene Greiferpositionierung wird in unserem Algorithmus auf kritische Ei
 Sowohl PNG- als auch SVG-Dateien können verarbeitet werden. 
 
 
-
+<br>
 ## 🎯 Funktionsweise der Positionierung und Scoring 
 
 Der Positionierungsalgorithmus basiert auf einem Scoring-System mit verschiedenen linearen und nichtlinearen Einflussparametern. In diesem Scoring wird jeder einzelne Greiferpunkt bewertet und schließlich die Summe der Einzelscores gebildet.  
