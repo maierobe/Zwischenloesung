@@ -106,7 +106,7 @@ def main():
 
     # load model
     print('Loading Computer Vision Model...')
-    model_path = "cv_model/RMS_cv_model.pth"
+    model_path = "solution/RMS_cv_model.pth"
     model = hloadmodel.load_model(model_path)
 
     # compute the solution for each row
