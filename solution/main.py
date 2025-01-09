@@ -26,7 +26,7 @@ def compute_amazing_solution(
     :param gripper_image_path: Path to the gripper image
     :return: The x, y and angle of the gripper
     """
-
+    
     try:
         # Calculate mask with custom cv model
         mask = hrunmodel.run_model(part_image_path, model)
@@ -60,6 +60,7 @@ def compute_amazing_solution(
     except Exception as e:
         # Handle all other unexpected exceptions  
         print(f"\033[91mUnexpected error: part <{part_image_path}>, gripper <{gripper_image_path}>\033[0m")  # rot
+        print(e)
         exitCode = 1
         raise e
 
@@ -82,7 +83,9 @@ def main():
 
     # load model
     print('Loading Computer Vision Model...')
-    model_path = "solution/RMS_cv_model.pth"
+    parent_directory = Path(__file__).parent
+    #model_path = "solution/RMS_cv_model.pth"
+    model_path = parent_directory / "RMS_cv_model.pth"
     model = hloadmodel.load_model(model_path)
 
     # compute the solution for each row
@@ -94,8 +97,10 @@ def main():
             description="Computing the solutions for each row",
             total=len(input_df),
     ):
-        part_image_path = Path(row["part"])
-        gripper_image_path = Path(row["gripper"])
+        part_image_path = parent_directory.parent / row["part"]
+        gripper_image_path = parent_directory.parent / row["gripper"]
+        #part_image_path = Path(row["part"])
+        #gripper_image_path = Path(row["gripper"])
         assert part_image_path.exists(), f"{part_image_path} does not exist"
         assert gripper_image_path.exists(), f"{gripper_image_path} does not exist"
         # TODO: wenn file nicht existiert, auch nicht weiter rechnen!!!
@@ -106,7 +111,8 @@ def main():
         try:
             x, y, angle, warningMessage, exitCode = compute_amazing_solution(part_image_path, gripper_image_path, args.output, model)  #TODO: Anpassen # output path is passed to save the visualization plot to the output dir
 
-            results.append([str(part_image_path), str(gripper_image_path), x, y, angle, warningMessage])
+            #results.append([str(part_image_path), str(gripper_image_path), x, y, angle, warningMessage])
+            results.append([row["part"], row["gripper"], x, y, angle, warningMessage])
 
             if exitCode == 1:
                 main_exitCode = 1

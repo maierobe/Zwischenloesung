@@ -34,10 +34,10 @@ def main_get_position_and_visualization(mask_np_array, gripper_path_win: Path, i
     search_param_fine_multipl_angle = 1.5 # z.B. 1.5
     ############################
     debugging_bool = False
-    
+
     try:
         #========== GRIPPER PREPROCESSING ==========
-
+    	
         #load gripper file and get radiii and center points
         gripper_path = str(gripper_path_win)
         image_path = str(image_path_win)
@@ -76,7 +76,7 @@ def main_get_position_and_visualization(mask_np_array, gripper_path_win: Path, i
         #dist_map = filter_distance_map(dist_map, radii) 
 
 
-
+ 
         #========== POSITIONING ==========
 
         # Find the optimal gripper position
@@ -102,13 +102,13 @@ def main_get_position_and_visualization(mask_np_array, gripper_path_win: Path, i
             print("Optimal Score:", optimal_score)
 
 
-
+     
         #========== ANALYSE CHOSEN POSITION ==========
         num_of_grippers, num_of_grippers_near_edge_0_to_Xmm, is_over_edge, schwerpunkt_distanz_flag = evaluate_and_analyse_position(
             dist_map, gripper_points, gripper_center, radii, optimal_position, optimal_angle, min_distance_to_forbidden_area, com,  gripper_path_win, mask_np_array)
 
         warningInfo = CustomWarningInfo(num_of_grippers, num_of_grippers_near_edge_0_to_Xmm, is_over_edge, schwerpunkt_distanz_flag, min_distance_to_forbidden_area)
-        
+ 
         #========== PLOTTING RESULTS ==========
         results_folder_path = os.path.dirname(results_file_path) + "\\"
         if debugging_bool:
@@ -180,8 +180,10 @@ def main_get_position_and_visualization(mask_np_array, gripper_path_win: Path, i
             )
 
             plt.tight_layout()
-            mask_name = image_path.split("\\")[-1][0:-4]
-            gripper_name = gripper_path.split("\\")[-1][0:-4]
+            #mask_name = image_path.split("\\")[-1][0:-4]
+            #gripper_name = gripper_path.split("\\")[-1][0:-4]
+            mask_name = image_path_win.stem
+            gripper_name = gripper_path_win.stem
             save_path = results_folder_path + "result___" + mask_name + "___" + gripper_name + ".png"
             plt.savefig(save_path, format='png')
             plt.close()
@@ -225,7 +227,9 @@ def main_get_position_and_visualization(mask_np_array, gripper_path_win: Path, i
 
             #im_gripper = cv2.imread(gripper_file_png)
             if gripper_path_win.suffix == '.png':
+                #print(f"Plotting in hpos 1/2: gripper path: {str(gripper_path_win)}")
                 im_gripper = Image.open(gripper_path)
+                #print(f"Plotting in hpos 2/2: gripper path: {str(gripper_path_win)}")
                 buffer = max(np.array(im_gripper).shape)
                 im_gripper = ImageOps.expand(im_gripper, border=(buffer,buffer,np.ceil(optimal_position[0] + buffer).astype(int), np.ceil(optimal_position[1] + buffer).astype(int)), fill=(0,0,0,0))
                 goal_point = (optimal_position[1]-gripper_center[1], optimal_position[0]-gripper_center[0])
@@ -250,8 +254,10 @@ def main_get_position_and_visualization(mask_np_array, gripper_path_win: Path, i
 
             ax2.legend()
             ax2.set_title("Gripper Position")
-            mask_name = image_path.split("\\")[-1][0:-4]
-            gripper_name = gripper_path.split("\\")[-1][0:-4]
+            #mask_name = image_path.split("\\")[-1][0:-4]
+            #gripper_name = gripper_path.split("\\")[-1][0:-4]
+            mask_name = image_path_win.stem
+            gripper_name = gripper_path_win.stem
             ax2.text(
                 0.7, 0.05,
                 #f"Time: {end_time - start_time:.2f} s\nX-Offset: {optimal_position[0]} pixel\nY-Offset: {optimal_position[1]} pixel\nAngle: {optimal_angle} deg",
@@ -276,6 +282,7 @@ def main_get_position_and_visualization(mask_np_array, gripper_path_win: Path, i
         raise e
         
 
+    #return optimal_position[0], optimal_position[1], change_angle_direction(optimal_angle), warningInfo
     return optimal_position[0], optimal_position[1], optimal_angle, warningInfo
 
 
