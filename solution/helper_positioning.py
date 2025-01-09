@@ -276,7 +276,7 @@ def main_get_position_and_visualization(mask_np_array, gripper_path_win: Path, i
         raise e
         
 
-    return optimal_position[0], optimal_position[1], change_angle_direction(optimal_angle), warningInfo
+    return optimal_position[0], optimal_position[1], optimal_angle, warningInfo
 
 
 def change_angle_direction(angle):
